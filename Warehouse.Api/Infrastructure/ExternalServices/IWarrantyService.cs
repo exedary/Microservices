@@ -4,7 +4,7 @@ using Warehouse.Api.Infrastructure.ExternalServices.Dto;
 
 namespace Warehouse.Api.Infrastructure.ExternalServices
 {
-    interface IWarrantyService
+    internal interface IWarrantyService
     {
         public Task<WarrantyServiceResponse> StartWarranty(Guid id);
 

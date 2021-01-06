@@ -19,7 +19,7 @@ namespace Warehouse.Api.Features.CreateOrder
         private readonly IOrdersRepository _ordersRepository;
         private readonly IWarrantyService _warrantyService;
         private readonly WarehouseDbContext _warehouseDbContext;
-        public CreateOrderCommandHandler(IItemsRepository itemsRepository, IOrdersRepository ordersRepository, 
+        public CreateOrderCommandHandler(IItemsRepository itemsRepository, IOrdersRepository ordersRepository,
                                          WarehouseDbContext warehouseDbContext, IWarrantyService warrantyService)
         {
             _itemsRepository = itemsRepository ?? throw new ArgumentNullException(nameof(itemsRepository));

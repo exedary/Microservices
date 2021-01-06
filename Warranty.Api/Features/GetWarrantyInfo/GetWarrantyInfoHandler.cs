@@ -9,7 +9,7 @@ namespace Warranty.Api.Features.GetWarrantyInfo
 {
     internal class GetWarrantyInfoHandler : IRequestHandler<GetWarrantyInfoRequest, GetWarrantyInfoResponse>
     {
-        private readonly IWarrantyRepository _warrantyRepository; 
+        private readonly IWarrantyRepository _warrantyRepository;
         public GetWarrantyInfoHandler(IWarrantyRepository warrantyRepository)
         {
             _warrantyRepository = warrantyRepository;

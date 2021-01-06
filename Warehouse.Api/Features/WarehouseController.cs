@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Warehouse.Api.Features.CancelOrder.Dto;
 using Warehouse.Api.Features.CreateOrder.Dto;
 using Warehouse.Api.Features.GetOrderInfo;
-using Warehouse.Api.Features.WarrantyRequest;
 
 namespace Warehouse.Api.Features
 {

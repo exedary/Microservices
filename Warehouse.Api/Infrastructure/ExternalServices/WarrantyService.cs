@@ -7,7 +7,7 @@ using Warehouse.Api.Infrastructure.ExternalServices.Dto;
 
 namespace Warehouse.Api.Infrastructure.ExternalServices
 {
-    public class WarrantyService : IWarrantyService
+    internal class WarrantyService : IWarrantyService
     {
         private readonly HttpClient _httpClient;
         public WarrantyService(HttpClient httpClient)

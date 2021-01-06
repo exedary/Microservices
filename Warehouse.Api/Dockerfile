@@ -2,15 +2,15 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 81
 EXPOSE 443
+ENV ASPNETCORE_URLS=http://+:8081
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Warehouse.Api/Warehouse.Api.csproj", "Warehouse.Api/"]
-RUN dotnet restore "Warehouse.Api/Warehouse.Api.csproj"
+COPY ["Warehouse.Api.csproj", "Warehouse/"]
+RUN dotnet restore "Warehouse/Warehouse.Api.csproj"
 COPY . .
-WORKDIR "/src/Warehouse.Api"
 RUN dotnet build "Warehouse.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

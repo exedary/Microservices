@@ -6,11 +6,10 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["Warranty.Api/Warranty.Api.csproj", "Warranty.Api/"]
-RUN dotnet restore "Warranty.Api/Warranty.Api.csproj"
+WORKDIR /app
+COPY ["Warranty.Api.csproj", "Warranty/"]
+RUN dotnet restore "Warranty/Warranty.Api.csproj"
 COPY . .
-WORKDIR "/src/Warranty.Api"
 RUN dotnet build "Warranty.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
