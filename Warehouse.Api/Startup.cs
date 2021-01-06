@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Warehouse.Api.Domain.Repositories;
 using Warehouse.Api.Infrastructure.Database;
 using Warehouse.Api.Infrastructure.Database.Repositories;
+using Warehouse.Api.Infrastructure.ExternalServices;
 
 namespace Warehouse.Api
 {
@@ -25,10 +27,13 @@ namespace Warehouse.Api
             services.AddHealthChecks();
             services.AddControllers();
             services.AddSwaggerGen();
-            services.AddMediatR(typeof(Startup));
             services.AddScoped<IItemsRepository, ItemsRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
-            services.AddDbContext<WarehouseDbContext>(options => options.UseNpgsql(_configuration.GetConnectionString("DbConnection")));
+            services.AddHttpClient<IWarrantyService, WarrantyService>(client =>
+                client.BaseAddress = new Uri(_configuration.GetSection("WarrantyApi").Value));
+            services.AddDbContext<WarehouseDbContext>(options =>
+                options.UseNpgsql(_configuration.GetSection("WAREHOUSE_DB").Value));
+            services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,6 +9,7 @@ using Warehouse.Api.Domain.Specifications;
 using Warehouse.Api.Features.CreateOrder.Dto;
 using Warehouse.Api.Features.Dto;
 using Warehouse.Api.Infrastructure.Database;
+using Warehouse.Api.Infrastructure.ExternalServices;
 
 namespace Warehouse.Api.Features.CreateOrder
 {
@@ -16,12 +17,15 @@ namespace Warehouse.Api.Features.CreateOrder
     {
         private readonly IItemsRepository _itemsRepository;
         private readonly IOrdersRepository _ordersRepository;
+        private readonly IWarrantyService _warrantyService;
         private readonly WarehouseDbContext _warehouseDbContext;
-        public CreateOrderCommandHandler(IItemsRepository itemsRepository, IOrdersRepository ordersRepository, WarehouseDbContext warehouseDbContext)
+        public CreateOrderCommandHandler(IItemsRepository itemsRepository, IOrdersRepository ordersRepository, 
+                                         WarehouseDbContext warehouseDbContext, IWarrantyService warrantyService)
         {
             _itemsRepository = itemsRepository ?? throw new ArgumentNullException(nameof(itemsRepository));
             _ordersRepository = ordersRepository ?? throw new ArgumentNullException(nameof(ordersRepository));
             _warehouseDbContext = warehouseDbContext ?? throw new ArgumentNullException(nameof(warehouseDbContext));
+            _warrantyService = warrantyService ?? throw new ArgumentNullException(nameof(warrantyService));
         }
 
         public async Task<CommandResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -32,6 +36,7 @@ namespace Warehouse.Api.Features.CreateOrder
                 var order = Order.Create(item);
                 await _ordersRepository.Add(order);
                 await _warehouseDbContext.SaveChangesAsync();
+                await _warrantyService.StartWarranty(order.OrderItemUid);
                 return new CommandResult
                 {
                     IsCompleted = true

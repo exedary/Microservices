@@ -27,7 +27,7 @@ namespace Warranty.Api
             services.AddSwaggerGen();
             services.AddMediatR(typeof(Startup));
             services.AddScoped<IWarrantyRepository, WarrantyRepository>();
-            services.AddDbContext<WarrantyDbContext>(options => options.UseNpgsql(_configuration.GetConnectionString("DbConnection")));
+            services.AddDbContext<WarrantyDbContext>(options => options.UseNpgsql(_configuration.GetSection("WARRANTY_DB").Value));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

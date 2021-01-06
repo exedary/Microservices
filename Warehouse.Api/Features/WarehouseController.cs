@@ -55,12 +55,12 @@ namespace Warehouse.Api.Features
         [HttpPost("{orderItemUid}/warranty")]
         public async Task<IActionResult> RequestWarranty(Guid orderItemUid)
         {
-            var response = await _mediator.Send(new WarrantyRequestCommand(orderItemUid));
-            if (response.IsCompleted)
+            var response = await _mediator.Send(new WarrantyRequest.WarrantyRequest(orderItemUid));
+            if (response != null)
             {
                 return Ok(response);
             }
-            return StatusCode(500, response.Reason);
+            return NotFound();
         }
 
         /// <summary>
