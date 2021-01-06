@@ -31,9 +31,9 @@ namespace Warranty.Api.Features
         }
 
         [HttpPost("{itemUid}/warranty")]
-        public async Task<IActionResult> DecideWarrancy(Guid itemUid, [FromBody] bool isInStock)
+        public async Task<IActionResult> DecideWarrancy(Guid itemUid, [FromBody]WarrantyDecisionRequestDto requestDto)
         {
-            var response = await _mediator.Send(new WarrantyDecisionRequest { Id = itemUid, IsInStock = isInStock });
+            var response = await _mediator.Send(new WarrantyDecisionRequest { Id = itemUid, IsInStock = requestDto.IsInStock });
             if (response != null)
             {
                 return Ok(response);

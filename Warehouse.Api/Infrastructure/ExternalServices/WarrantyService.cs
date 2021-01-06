@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Warehouse.Api.Infrastructure.ExternalServices.Dto;
@@ -21,11 +22,13 @@ namespace Warehouse.Api.Infrastructure.ExternalServices
             return JsonSerializer.Deserialize<WarrantyServiceResponse>(await response.Content.ReadAsStringAsync()); ;
         }
 
-        public async Task<WarrantyDecisionDto> GetWarrantyDecision(Guid id)
+        public async Task<WarrantyDecisionDto> GetWarrantyDecision(Guid id, bool isInStock)
         {
-            var response = await _httpClient.PostAsync($"api/warranty/{id}/warranty", null);
+            var content = new StringContent(JsonSerializer.Serialize(new WarrantyDecisionRequestDto { IsInStock = isInStock }), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync($"api/warranty/{id}/warranty", content);
             response.EnsureSuccessStatusCode();
-            return JsonSerializer.Deserialize<WarrantyDecisionDto>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<WarrantyDecisionDto>(await response.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<WarrantyServiceResponse> StartWarranty(Guid id)

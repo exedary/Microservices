@@ -23,7 +23,12 @@ namespace Warranty.Api.Domain
 
         public void ChangeStatusToCancel()
         {
-            Status = WarrantyStatuses.RemovedFromWarranty;
+            if (Status == WarrantyStatuses.RemovedFromWarranty)
+            {
+                Status = WarrantyStatuses.RemovedFromWarranty;
+                WarrantyDate = TimeSpan.Zero;
+            }
+            else throw new InvalidOperationException("Item already in status: RemovedFromWarranty");
         }
 
         public void ChangeStatusToUse()

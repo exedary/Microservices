@@ -10,6 +10,6 @@ namespace Warehouse.Api.Infrastructure.ExternalServices
 
         public Task<WarrantyServiceResponse> DeleteWarranty(Guid id);
 
-        public Task<WarrantyDecisionDto> GetWarrantyDecision(Guid id);
+        public Task<WarrantyDecisionDto> GetWarrantyDecision(Guid id, bool isInStock);
     }
 }

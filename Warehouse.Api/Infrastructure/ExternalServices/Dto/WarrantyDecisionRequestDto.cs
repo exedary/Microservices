@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Warehouse.Api.Infrastructure.ExternalServices.Dto
 {
-    public class WarrantyDecisionDto
+    public class WarrantyDecisionRequestDto
     {
-
-        public string Decision { get; set; }
+        public bool IsInStock { get; set; }
     }
 }
