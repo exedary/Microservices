@@ -39,10 +39,10 @@ namespace Warehouse.Api.Tests
 
             SeedDb(guid);
 
-            var result = await handler.Handle(new CreateOrderCommand { Model="1", Size="2" }, It.IsAny<CancellationToken>());
+            var result = await handler.Handle(new CreateOrderCommand { Model = "2", Size = "2" }, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsCompleted);
-            Assert.That(_mockDbContext.Items.Find(1).AvailableCount == 1);
+            Assert.That(_mockDbContext.Items.Find(2).AvailableCount == 1, $"{_mockDbContext.Items.Find(2).AvailableCount}");
             Assert.That((await ordersRepository.GetById(guid)).Canceled == false);
         }
 
@@ -51,11 +51,11 @@ namespace Warehouse.Api.Tests
             _mockDbContext.Orders.AddRange(guids.Select(x => new Domain.Order
             {
                 Canceled = false,
-                ItemId = 1,
+                ItemId = 2,
                 OrderUid = x,
                 OrderItemUid = x,
             }));
-            _mockDbContext.Items.Add(new Domain.Item { Id = 1, AvailableCount = 2, Model = "1", Size = "2" });
+            _mockDbContext.Items.Add(new Domain.Item { Id = 2, AvailableCount = 2, Model = "2", Size = "2" });
             _mockDbContext.SaveChanges();
         }
     }
