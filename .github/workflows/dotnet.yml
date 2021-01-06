@@ -23,3 +23,6 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        WAREHOUSE_DB: ${{ secrets.WAREHOUSE_DB }}
+        WARRANTY_DB: ${{ secrets.WARRANTY_DB }}
