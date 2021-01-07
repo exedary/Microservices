@@ -21,7 +21,7 @@ jobs:
     - name: Publish
       env: 
         HEROKU_KEY: ${{secrets.HEROKU_KEY}} 
-    - run: |
+      run: |
         docker login --username=exedary@gmail.com --password=$HEROKU_KEY registry.heroku.com
         docker push registry.heroku.com/warehousemicroservice/web
         docker push registry.heroku.com/microserviceswarehousedb/web        
