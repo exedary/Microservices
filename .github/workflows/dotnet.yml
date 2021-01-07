@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: Build warehouse
       uses: actions/checkout@v2
-    - run: docker build ./Warehouse.Api --tag microserviceswarehousedb/web
+    - run: docker build ./Warehouse.Api --tag registry.heroku.com/microserviceswarehousedb/web
     - name: Build warranty
       uses: actions/checkout@v2
-    - run: docker build ./Warranty.Api --tag warehousemicroservice/web
+    - run: docker build ./Warranty.Api --tag registry.heroku.com/warehousemicroservice/web
     - name: Publish
       env: 
         HEROKU_KEY: ${{secrets.HEROKU_KEY}} 
