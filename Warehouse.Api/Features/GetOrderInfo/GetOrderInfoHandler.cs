@@ -19,12 +19,12 @@ namespace Warehouse.Api.Features.GetOrderInfo
         public async Task<GetOrderInfoResponse> Handle(GetOrderInfoRequest request, CancellationToken cancellationToken)
         {
             var order = await _ordersRepository.GetById(request.Id);
-            if(order != null)
+            if (order != null)
             {
                 var item = await _itemsRepository.GetById(order.ItemId);
                 return item?.ToDto();
             }
-            return null;   
+            return null;
         }
     }
 }

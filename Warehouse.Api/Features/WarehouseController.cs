@@ -29,7 +29,7 @@ namespace Warehouse.Api.Features
             {
                 Id = orderItemUid
             });
-            if(response != null)
+            if (response != null)
             {
                 return Ok(response);
             }
