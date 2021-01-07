@@ -27,10 +27,11 @@ jobs:
         docker push registry.heroku.com/microserviceswarehousedb/web
         
   deployWarehouse:
-   
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
+      - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_KEY}}
@@ -44,12 +45,12 @@ jobs:
             docker run -d -p 8081:8081 -e $WAREHOUSE_DB registry.heroku.com/warehousemicroservice/web
             
   deployWarranty:
-    
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
-      - uses: akhileshns/heroku-deploy@v3.8.8
       - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{secrets.HEROKU_KEY}}
           heroku_app_name: "microserviceswarehousedb" #Must be unique in Heroku
