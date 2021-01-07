@@ -12,17 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      env:
-        WAREHOUSE_DB: ${{ secrets.WAREHOUSE_DB }}
-        WARRANTY_DB: ${{ secrets.WARRANTY_DB }}
+    - name: Build warehouse
+      uses: actions/checkout@v2
+    - run: docker build ./Warehouse.Api --tag registry.heroku.com/microserviceswarehousedb/web
+    - name: Build warranty
+      uses: actions/checkout@v2
+    - run: docker build ./Warranty.Api --tag registry.heroku.com/warehousemicroservice/web
+    - name: Publish
+      env: 
+        HEROKU_KEY: ${{secrets.HEROKU_KEY}} 
+      run: |
+        docker login --username=exedary@gmail.com --password=$HEROKU_KEY registry.heroku.com
+        docker push registry.heroku.com/warehousemicroservice/web
+        docker push registry.heroku.com/microserviceswarehousedb/web        
