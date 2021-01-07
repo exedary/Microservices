@@ -41,7 +41,7 @@ jobs:
           appdir: "Warehouse.Api"     
         env:
           WAREHOUSE_DB: ${{secrets.WAREHOUSE_DB}}
-      - run: docker run -d -p 8081:8081 registry.heroku.com/warehousemicroservice/web
+      - run: docker run -d -p 8081:$PORT -e WAREHOUSE_DB=$WAREHOUSE_DB registry.heroku.com/warehousemicroservice/web
             
   deployWarranty:
     needs: build
@@ -58,4 +58,4 @@ jobs:
           appdir: "Warranty.Api"
         env:
           WARRANTY_DB: ${{secrets.WARRANTY_DB}}
-      - run: docker run -d -p 5053:5053 registry.heroku.com/microserviceswarehousedb/web         
+      - run: docker run -d -p 8080:$PORT -e WARRANTY_DB=$WARRANTY_DB registry.heroku.com/microserviceswarehousedb/web         
