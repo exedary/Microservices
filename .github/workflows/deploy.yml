@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  buildWarehouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_KEY}}
+          heroku_app_name: "microserviceswarehousedb" #Must be unique in Heroku
+          heroku_email: "exedary@gmail.com"
+          usedocker: true
+          appdir: "Warehouse.Api"     
+        env:
+          WAREHOUSE_DB: ${{secrets.WAREHOUSE_DB}}
+      - run: |
+            docker run -d -p 8081:8081 -e $WAREHOUSE_DB exedary/warehouse:latest 
+  buildWarranty:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_KEY}}
+          heroku_app_name: "microserviceswarehousedb" #Must be unique in Heroku
+          heroku_email: "exedary@gmail.com"
+          usedocker: true
+          appdir: "Warranty.Api"
+        env:
+          WARRANTY_DB: ${{secrets.WARRANTY_DB}}
+      - run: |
+            docker run -d -p 5053:5053 -e $WARRANTY_DB exedary/warranty:latest
