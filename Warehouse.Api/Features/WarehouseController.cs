@@ -29,8 +29,11 @@ namespace Warehouse.Api.Features
             {
                 Id = orderItemUid
             });
-
-            return Ok(response);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound();
         }
 
         /// <summary>
