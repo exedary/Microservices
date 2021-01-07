@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net.Http;
 using Warehouse.Api.Domain.Repositories;
 using Warehouse.Api.Infrastructure.Database;
 using Warehouse.Api.Infrastructure.Database.Repositories;
@@ -30,7 +31,12 @@ namespace Warehouse.Api
             services.AddScoped<IItemsRepository, ItemsRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddHttpClient<IWarrantyService, WarrantyService>(client =>
-                client.BaseAddress = new Uri(_configuration.GetSection("WarrantyApi").Value));
+                client.BaseAddress = new Uri(_configuration.GetSection("WarrantyApi").Value))
+                .ConfigurePrimaryHttpMessageHandler( (IServiceProvider) => 
+                new HttpClientHandler 
+                {
+                    ServerCertificateCustomValidationCallback = (a, b, c, d) => true
+                });
             services.AddDbContext<WarehouseDbContext>(options =>
                 options.UseNpgsql(_configuration.GetSection("WAREHOUSE_DB").Value));
             services.AddMediatR(typeof(Startup));
