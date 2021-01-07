@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  warranty:
+    build:
+      context: ./Warranty.Api
+    ports:
+      - "5003:5003"
+    expose:
+      - "5003"
+  warehouse:
+    build: 
+      context: ./Warehouse.Api
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+    
