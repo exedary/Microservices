@@ -35,7 +35,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_KEY}}
-          heroku_app_name: "microserviceswarehousedb" #Must be unique in Heroku
+          heroku_app_name: "warehousemicroservice" #Must be unique in Heroku
           heroku_email: "exedary@gmail.com"
           usedocker: true
           appdir: "Warehouse.Api"     
